@@ -1,0 +1,16 @@
+---
+- set_fact: ext=bat
+   when: ansible_os_family == 'Windows'
+
+- set_fact: ext=sh
+  when: ansible_os_family != 'Windows'
+
+- name: Add Application User
+  become: true
+  command: "{{jboss_bxms_eap_bin_directory}}/add-user.{{ext}} -a {{item.user}} {{item.password}}"
+  with_items: "{{users}}"
+
+- name: Add Groups for Application User
+  become: true
+  lineinfile: dest=/opt/jboss-as/jboss-eap-6.4/standalone/configuration/application-roles.properties regexp=^{{item.user}}= line={{item.user}}={{item.roles}}
+  with_items: "{{users}}"

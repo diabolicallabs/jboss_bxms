@@ -1,0 +1,10 @@
+---
+- name: Remove Management User
+  become: true
+  lineinfile: dest=/opt/jboss-as/jboss-eap-6.4/standalone/configuration/mgmt-users.properties state=absent regexp=^{{item.user}}=
+  with_items: "{{users}}"
+
+- name: Remove Groups for Management User
+  become: true
+  lineinfile: dest=/opt/jboss-as/jboss-eap-6.4/standalone/configuration/mgmt-groups.properties regexp=^{{item.user}}= line={{item.user}}={{item.roles}}
+  with_items: "{{users}}"

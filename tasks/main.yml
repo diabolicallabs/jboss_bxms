@@ -95,6 +95,16 @@
     path: "{{ jboss_bxms_kie_server_location + '.dodeploy' }}"
   when: jboss_bxms_deploy_kie_server == false
 
-- include: configuration_files.yml
-
 - include: java_opts.yml
+
+- include: add_application_user_role.yml
+  when: jboss_bxms_create_default_eap_user == true
+  vars:
+    users:
+      - { 'user': 'jboss', 'password': 'bpmsuite1!', 'roles': 'admin,developer,analyst,user,manager,reviewer,kie-server,task-group,rest-all,kiemgmt' }
+
+- include: add_management_user_role.yml
+  when: jboss_bxms_create_default_eap_user == true
+  vars:
+    users:
+      - { 'user': 'jboss', 'password': 'bpmsuite1!', 'roles': 'admin' }

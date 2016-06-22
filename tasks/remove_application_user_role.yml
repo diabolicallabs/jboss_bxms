@@ -1,0 +1,10 @@
+---
+- name: Remove Application User
+  become: true
+  lineinfile: dest=/opt/jboss-as/jboss-eap-6.4/standalone/configuration/application-users.properties state=absent regexp=^{{item.user}}=
+  with_items: "{{users}}"
+
+- name: Remove Groups for Application User
+  become: true
+  lineinfile: dest=/opt/jboss-as/jboss-eap-6.4/standalone/configuration/application-roles.properties state=absent regexp=^{{item.user}}=
+  with_items: "{{users}}"

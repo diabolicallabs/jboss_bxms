@@ -4,11 +4,14 @@ jboss_bxms_artifact_name: jboss-bpmsuite-6.3.0.GA-deployable-eap6.x.zip
 
 # This is default set to EAP values, but will need to be configurable for each container
 jboss_bxms_artifact_dest: /opt/jboss-as
+jboss_eap_directory_name: jboss-eap-6.4
+jboxx_bxms_standalone_directory: "{{ jboss_bxms_artifact_dest }}/{{ jboss_eap_directory_name }}/standalone"
 
-jboss_bxms_deployment_directory: /opt/jboss-as/jboss-eap-6.4/standalone/deployments
-jboss_bxms_eap_config_directory: /opt/jboss-as/jboss-eap-6.4/standalone/configuration
+jboss_bxms_deployment_directory: "{{ jboxx_bxms_standalone_directory }}/deployments"
+jboss_bxms_eap_config_directory: "{{ jboxx_bxms_standalone_directory }}/configuration"
+jboss_bxms_eap_bin_directory: "{{ jboss_bxms_artifact_dest }}/{{ jboss_eap_directory_name }}/bin"
 
-eap_runtime_conf_file: /opt/jboss-as/jboss-eap-6.4/bin/standalone.conf
+eap_runtime_conf_file: "{{ jboss_bxms_eap_bin_directory }}/standalone.conf"
 
 jboss_bxms_expose_git_daemon: true
 jboss_bxms_expose_ssh_daemon: true
